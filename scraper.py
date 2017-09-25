@@ -19,3 +19,14 @@ search_button.click()  # simulate clicking
 search_results_xpath = '//h3[@class="r"]/a'
 search_results = browser.find_by_xpath(search_results_xpath)  # returns list of link elements
 
+# iterate through list of link elements
+scraped_data = []
+for search_result in search_results:
+
+	title = search_result.text.encode('utf8')  # trust me, clean data
+	link = search_result["href"]
+	scraped_data.append((title, link))
+
+# put all the data into a pandas dataframe
+df = pd.DataFrame(data=scraped_data, columns=["title", "link"])
+df.to_csv("links.csv")	# export to csv
